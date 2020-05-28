@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Mi CDPI Applicaciòn</string>
     <string name="greetings">Hola a todos !</string>
+    <string name="connect">Connectar</string>
+    <string name="login">Identificaciòn</string>
+    <string name="password">password</string>
+    <string name="message_error_connect">Olala</string>
 </resources>

@@ -4,23 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingLeft="50dp"
-    android:paddingRight="50dp"
+    android:orientation="horizontal"
     tools:context=".MainActivity">
 
     <ImageView
         android:id="@+id/main_logo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="30"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="50"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
         app:srcCompat="@drawable/logo" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="70"
-        android:gravity="center">
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="50"
+        android:gravity="center"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
 
         <Button
             android:id="@+id/main_connect"

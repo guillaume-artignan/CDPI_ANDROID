@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Mon application CDPI</string>
     <string name="greetings">Bonjour tout le monde</string>
+    <string name="connect">Se connecter</string>
+    <string name="login">Identifiant</string>
+    <string name="password">Mot de passe</string>
+    <string name="message_error_connect">Le login et/ou le mot de passe ne sont pas correct</string>
 </resources>

@@ -1,12 +1,15 @@
 package com.example.cdpi;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 import com.google.gson.Gson;
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -14,17 +17,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.e("TEST ERREUR","Mon erreur de Test");
         Log.i("TEST INFO","Mon info de Test");
         Log.w("TEST WARNING","Mon warning de Test");
-        Button but = findViewById(R.id.btn1);
-        but.setText("Hello");
-        but.setOnClickListener(this);
+
     }
 
-    @Override
-    public void onClick(View v) {
-        Toast.makeText(this,"YOUPI",Toast.LENGTH_LONG).show();
-    }
 
-    public void toto(View v){
-        Toast.makeText(this,"YOUPI2",Toast.LENGTH_LONG).show();
+    public void connect(View v){
+        EditText loginText = findViewById(R.id.main_login);
+        EditText passwordText = findViewById(R.id.main_password);
+        Intent i = new Intent(this,MenuActivity.class);
+
+        if (    "g".equals(loginText.getText().toString())
+            &&  "p".equals(passwordText.getText().toString()))
+            startActivity(i);
+        else Toast.makeText(this,R.string.message_error_connect,Toast.LENGTH_LONG).show();
+
     }
 }
