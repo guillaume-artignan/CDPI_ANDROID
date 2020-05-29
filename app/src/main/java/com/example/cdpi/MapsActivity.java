@@ -32,7 +32,9 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
@@ -75,7 +77,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         GetToiletteTask tache = new GetToiletteTask(this);
-        String url = "https://opendata.paris.fr/api/records/1.0/search/?dataset=sanisettesparis&q=&facet=type&facet=statut&facet=arrondissement&facet=horaire&facet=acces_pmr&facet=relais_bebe";
+        String url = "https://opendata.paris.fr/api/records/1.0/search/?dataset=sanisettesparis&q=&rows=9999&facet=type&facet=statut&facet=arrondissement&facet=horaire&facet=acces_pmr&facet=relais_bebe";
         tache.execute(url);
 
         // Add a marker in Sydney and move the camera
@@ -130,6 +132,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void onDataReceived(HashMap map){
 
-        Log.i("J'AI LE RESULTAT","YOUPI");
+        ArrayList<Map> array = (ArrayList<Map>) map.get("records");
+
+        for (Map record : array){
+            Map fields = (Map) record.get("fields");
+            ArrayList coord = (ArrayList)fields.get("geo_point_2d");
+            double latitude = (double) coord.get(0);
+            double longitude = (double) coord.get(1);
+            ajouterMarqueur(latitude,longitude);
+        }
+    }
+
+    public void ajouterMarqueur(double latitude, double longitude) {
+        mMap.addMarker(new MarkerOptions().position(new LatLng(latitude,longitude)));
     }
 }
