@@ -13,6 +13,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -25,6 +26,13 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.HashMap;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
@@ -46,7 +54,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, this);
+        manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 1, this);
+
+
+
     }
 
 
@@ -62,6 +73,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+        GetToiletteTask tache = new GetToiletteTask(this);
+        String url = "https://opendata.paris.fr/api/records/1.0/search/?dataset=sanisettesparis&q=&facet=type&facet=statut&facet=arrondissement&facet=horaire&facet=acces_pmr&facet=relais_bebe";
+        tache.execute(url);
 
         // Add a marker in Sydney and move the camera
         LatLng gorgeDuLoup = new LatLng(45.76630401611328,4.805170059204102);
@@ -111,5 +126,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onProviderDisabled(String provider) {
 
+    }
+
+    public void onDataReceived(HashMap map){
+
+        Log.i("J'AI LE RESULTAT","YOUPI");
     }
 }
