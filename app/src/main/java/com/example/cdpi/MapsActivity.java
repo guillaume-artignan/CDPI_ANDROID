@@ -20,6 +20,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -28,6 +29,7 @@ import com.google.android.gms.maps.model.PolygonOptions;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
     private GoogleMap mMap;
+    private Circle position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +42,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, this);
@@ -65,14 +68,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng somewhere = new LatLng(45.86630501611328,4.905180059204102);
         mMap.addMarker(new MarkerOptions().position(gorgeDuLoup).title("Gorge du Loup"));
         mMap.addMarker(new MarkerOptions().position(somewhere).title("Quelque part"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(gorgeDuLoup));
-        mMap.moveCamera(CameraUpdateFactory.zoomTo(16.0f));
 
-        mMap.addCircle(new CircleOptions()
-                                .center(gorgeDuLoup)
-                                .radius(10.0)
-                                .fillColor(Color.argb(127,0,0,255))
-                                .strokeColor(Color.BLUE));
+
+
 
         mMap.addPolygon(new PolygonOptions()
                                 .add(gorgeDuLoup)
@@ -84,7 +82,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onLocationChanged(Location location) {
-        Toast.makeText(this,"" + location.getLatitude()+ " "+location.getLongitude(),Toast.LENGTH_LONG).show();
+
+        if (position!=null) position.remove();
+        LatLng pos = new LatLng(location.getLatitude(),location.getLongitude());
+        CircleOptions copt = new CircleOptions()
+                    .center(pos)
+                    .radius(10.0)
+                    .fillColor(Color.argb(127,0,0,255))
+                    .strokeColor(Color.BLUE);
+
+
+        position = mMap.addCircle(copt);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(pos));
+        mMap.moveCamera(CameraUpdateFactory.zoomTo(16.0f));
+
     }
 
     @Override
