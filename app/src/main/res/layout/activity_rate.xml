@@ -30,7 +30,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tx"
         android:layout_centerHorizontal="true"
-        android:onClick="calculerTaux"
         android:text="Calculer" />
 
     <TextView
